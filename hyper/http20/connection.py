@@ -25,6 +25,7 @@ from .window import FlowControlManager
 from .exceptions import ConnectionError, StreamResetError
 from . import errors
 
+import sys
 import errno
 import logging
 import socket
@@ -410,7 +411,7 @@ class HTTP20Connection(object):
         with self._conn as conn:
             conn.initiate_upgrade_connection()
             conn.update_settings(
-                {h2.settings.ENABLE_PUSH: int(self._enable_push)}
+                {h2.settings.ENABLE_PUSH if sys.version_info < (3, 10) else h2.settings.SettingCodes.ENABLE_PUSH: int(self._enable_push)}
             )
         self._send_outstanding_data()
 
@@ -431,7 +432,7 @@ class HTTP20Connection(object):
         with self._conn as conn:
             conn.initiate_connection()
             conn.update_settings(
-                {h2.settings.ENABLE_PUSH: int(self._enable_push)}
+                {h2.settings.ENABLE_PUSH if sys.version_info < (3, 10) else h2.settings.SettingCodes.ENABLE_PUSH: int(self._enable_push)}
             )
         self._send_outstanding_data()
 

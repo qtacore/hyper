@@ -10,7 +10,12 @@ import os
 import socket
 import base64
 
-from collections import Iterable, Mapping
+import sys
+
+if sys.version_info < (3, 10):
+    from collections import Iterable, Mapping
+else:
+    from collections.abc import Iterable, Mapping
 
 import collections
 from hyperframe.frame import SettingsFrame

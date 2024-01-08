@@ -5,12 +5,17 @@ hyper/common/headers
 
 Contains hyper's structures for storing and working with HTTP headers.
 """
-import collections
+import sys
+
+if sys.version_info < (3, 10):
+    import collections as abc_collections
+else:
+    import collections.abc as abc_collections
 
 from hyper.common.util import to_bytestring, to_bytestring_tuple
 
 
-class HTTPHeaderMap(collections.MutableMapping):
+class HTTPHeaderMap(abc_collections.MutableMapping):
     """
     A structure that contains HTTP headers.
 
